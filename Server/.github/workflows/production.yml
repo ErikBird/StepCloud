@@ -1,0 +1,23 @@
+name: Production Deployment
+on:
+  workflow_dispatch:
+  workflow_run:
+    workflows: [ "Test & Staging Deploy" ]
+    branches: [ main ]
+    types:
+      - completed
+
+jobs:
+  prod-deploy:
+    name: Deploy Production
+    runs-on: production
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v2
+      - name: Deploy Server
+        run: docker-compose -f prod.docker-compose.yml up -d --build
+      - name: Run migrations
+        run: docker-compose exec -T backend alembic upgrade head
+      - name: Generate Missing Initial Data
+        run: docker-compose exec -T backend /bin/sh -c "python ./app/initial_data.py"
+

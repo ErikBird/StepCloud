@@ -1,0 +1,17 @@
+localhost {
+	handle /api/* {
+		reverse_proxy backend:8000
+	}
+    handle /docs {
+		reverse_proxy backend:8000
+	}
+
+	handle {
+	    try_files {path} /index.html
+	    file_server
+	}
+}
+
+localhost:1337 {
+	reverse_proxy pgadmin
+}

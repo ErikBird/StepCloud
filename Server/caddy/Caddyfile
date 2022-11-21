@@ -1,0 +1,21 @@
+{
+	email   erik@litholabs.com
+}
+
+stage.lithohub.com {
+    file_server
+    reverse_proxy /api/* flask:4444
+    reverse_proxy /docs flask:4444
+}
+
+stage.loki.lithohub.com {
+    @ipfilter {
+        not remote_ip 80.151.5.86 159.69.88.35
+    }
+    route @ipfilter {
+        respond "Access denied" 403 {
+            close
+        }
+    }
+    reverse_proxy loki:3100
+}

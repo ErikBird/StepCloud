@@ -1,0 +1,99 @@
+{
+  "nav": {
+    "logout": "Abmelden",
+    "dashboard": "Startseite",
+    "monitored": "Beobachtung",
+    "chat": "Chat",
+    "production": "Produktion",
+    "workflow": "Workflow",
+    "devices": "Geräte",
+    "consume": "Verbrauch"
+  },
+  "general": {
+    "open": "Öffnen",
+    "close": "Schließen",
+    "continue": "Weiter",
+    "cancel": "Abbrechen",
+    "save": "Speichern",
+    "finish": "Abschließen",
+    "search": "Suchen",
+    "username": "Benutzername"
+  },
+  "PasswordRecovery": {
+    "recover_action": "Password zurücksetzen",
+    "recover_title": "Wiederherstellen des Passwords",
+    "recover_explanation": "Sie erhalten eine E-Mail an die hinterlegte E-Mail Adresse.",
+    "forgot_password": "Password vergessen?"
+  },
+  "Login": {
+    "save_password": "Password speichern"
+  },
+  "setupSteps": {
+    "welcome": "Willkommen bei Lithohub",
+    "final": "Abschließen",
+    "scanDevices": "Geräte suchen",
+    "welcomeTitle": "Hallo von Team LithoHub",
+    "welcomeText": "Wir sind froh, dass du uns gefunden hast. Nach einer kleinen Einrichtungsphase kannst du direkt loslegen!",
+    "finalTitle": "Du hast es geschafft!",
+    "finalText": "Der Drucker wurde erfolgreich hinzugefügt. Du kannst nun anfangen deine Drucke zu analysieren."
+  },
+  "ScanDevicesOnNetwork": {
+    "title": "Deinen 3D Drucker hinzufügen",
+    "explanation": "Suche nach deinem Drucker in deinem Netzwerk oder füge ihn manuell hinzu:",
+    "search": "Es wird nach deinem Gerät im Netzwerk gesucht.",
+    "wait": "Bitte gedulde dich...",
+    "not_found": "Es konnte kein Drucker in deinem Netzwerk gefunden werden. Dies liegt häufig an einer veralteten Softwareversion des Druckers oder den Netzwerkeinstellungen.\n Bitte vergewissern Sie sich, dass er angeschlossen ist oder fügen Sie ihn manuell hinzu.",
+    "select": "Bitte wähle dein Gerät aus:",
+    "vendor": "Herrsteller",
+    "hostname": "Name",
+    "model": "Modell",
+    "manual": "Manuell",
+    "serial_number": "Seriennummer",
+    "IP": "IP-Adresse",
+    "restartScheduler": "Hochladen der Daten neustarten"
+  },
+  "BuildLogTable": {
+    "name": "Fabrikationsname",
+    "status": "Status",
+    "elapsed_time": "Fertigungszeit",
+    "total_slice_count": "Schichtanzahl",
+    "ended": "Fertigstellung"
+  },
+  "DeviceOverview": {
+    "monitoring_tooltip": "Dieses Gerät wird aktiv überwacht",
+    "add_device": "Neues Gerät"
+  },
+  "GatewayConnection": {
+    "info_online": "Gateway ist verbunden",
+    "info_offline": "keine Gateway-Verbindung",
+    "select_office": "Bitte wähle dein aktuelles Office aus:"
+  },
+  "Chat": {
+    "reply": "Hmm leider funktioniert dieser Chat noch nicht. Wir arbeiten daran, versprochen!"
+  },
+  "AddDeviceSteps": {
+    "no_device": "Es wurde kein Gerät gefunden! Stelle bitte sicher, dass das Gerät angeschlossen und wiederhole den Vorgang oder füge das Gerät manuell hinzu.",
+    "step_select": "Interface wählen",
+    "step_configure": "Gerät einrichten",
+    "manual": "Manuell",
+    "automatic": "Automatisch",
+    "select_device": "Gerät auswählen",
+    "use_interface_for_multi": "für folgendes Gerät verwenden:",
+    "use_interface_for_single": "wird für folgendes Gerät verwendet:"
+  },
+  "DeviceManual": {
+    "ip_required": "Die IP Adresse des Gerätes wird benötigt",
+    "ip_wrong": "Die IP Adresse des Gerätes ist nicht korrekt geschrieben!",
+    "type_required": "Um welchen Gerätetyp handelt es sich?",
+    "error": "Das Gerät konnte <strong>nicht</strong> hinzugefügt werden! Bitte überprüfe die IP Adresse."
+  },
+  "DeviceDetail": {
+    "last_event": "Letztes Ereignis",
+    "event_history": "Event Historie",
+    "performed_task": "Fertigungsschritt durchgeführt",
+    "settings_changes": "Einstellungen Geändert",
+    "sensor_data": "Sensor Daten",
+    "log_data": "Log Daten"
+  }
+}
+

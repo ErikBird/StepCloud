@@ -1,0 +1,98 @@
+{
+  "nav": {
+    "logout": "Log out",
+    "dashboard": "Dashboard",
+    "monitored": "Monitoring",
+    "chat": "Chat",
+    "production": "Production",
+    "workflow": "Workflow",
+    "devices": "Devices",
+    "consume": "Consumption"
+  },
+  "general": {
+    "open": "open",
+    "close": "close",
+    "continue": "continue",
+    "cancel": "cancel",
+    "save": "save",
+    "finish": "finish",
+    "search": "Search",
+    "username": "Username"
+  },
+  "PasswordRecovery": {
+    "recover_action": "Recover Password",
+    "recover_title": "Password Recovery",
+    "recover_explanation": "A password recovery email will be sent to the registered account",
+    "forgot_password": "Forgot your password?"
+  },
+  "Login": {
+    "save_password": "Save password"
+  },
+  "setupSteps": {
+    "welcome": "Welcome to Lithohub",
+    "final": "Finish",
+    "scanDevices": "Scan for devices",
+    "welcomeTitle": "Hello from Team LithoHub",
+    "welcomeText": "We are glad you found us. After a small Setup you can start leveraging your business!",
+    "finalTitle": "You have succeeded!",
+    "finalText": "You have managed to add your printer. Now you can track and analyse your production."
+  },
+  "ScanDevicesOnNetwork": {
+    "title": "Add your 3D Printer",
+    "explanation": "Search for your printer on the network or add him manually:",
+    "search": "We search for your Device in the Network",
+    "wait": "Please stand by...",
+    "not_found": "We could not find any printer on the network. This is often caused by an older software version on the printer or your network settings.\nPlease make sure the printer is connected or add the printer manually.",
+    "select": "Please select your device:",
+    "vendor": "Vendor",
+    "hostname": "Name",
+    "model": "model",
+    "manual": "Manuel",
+    "serial_number": "serial number",
+    "IP": "IP-Adress",
+    "restartScheduler": "Restart Dataupload"
+  },
+  "BuildLogTable": {
+    "name": "Build Name",
+    "status": "Status",
+    "elapsed_time": "Production Time",
+    "total_slice_count": "Slice Count",
+    "ended": "Date Ended"
+  },
+  "DeviceOverview": {
+    "monitoring_tooltip": "This device is actively monitored",
+    "add_device": "Add Device"
+  },
+  "GatewayConnection": {
+    "info_online": "Gateway is connected",
+    "info_offline": "no Gateway connection",
+    "select_office": "Please select your current office:"
+  },
+  "Chat": {
+    "reply": "Hmm unfortunately is this chat not build yet. We are working on it, we promise!"
+  },
+  "AddDeviceSteps": {
+    "no_device": "No devices found! Please make sure they are connected to the internet and try again or use the manual option.",
+    "step_select": "Select Interface",
+    "step_configure": "Configure Device",
+    "manual": "Manuel",
+    "automatic": "Automatic",
+    "select_device": "Select Device",
+    "use_interface_for_multi": "should be used for the following device:",
+    "use_interface_for_single": "will be used for this device:"
+  },
+  "DeviceManual": {
+    "ip_required": "The IP address is required",
+    "ip_wrong": "The IP address is written wrong - check again",
+    "type_required": "What is the device type?",
+    "error": "It is <strong>not</strong> possible to register the device! Please check the IP address again."
+  },
+  "DeviceDetail": {
+    "last_event": "Last Event",
+    "event_history": "Event History",
+    "performed_task": "Task performed",
+    "settings_changes": "Settings changed",
+    "sensor_data": "Sensor Data",
+    "log_data": "Log Data"
+  }
+}

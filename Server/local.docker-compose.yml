@@ -1,0 +1,83 @@
+version: "3.4"
+networks:
+  backend:
+    driver: "bridge"
+volumes:
+  database-data:
+  pgadmin:
+  caddy:
+
+services:
+  caddy:
+    container_name: caddy
+    build:
+      context: ./
+      dockerfile: ./caddy/Dockerfile
+      args:
+        VUE_APP_ENV: local
+        CADDY_FILE: ./caddy/Local.Caddyfile
+    ports:
+      - 1337:1337
+      - 443:443
+      - 80:80
+    volumes:
+      - caddy:/data
+    networks:
+      - backend
+
+  database:
+    container_name: stepcloud-db
+    image: docker.io/library/postgres
+    volumes:
+      - database-data:/var/lib/postgresql/data/
+    environment:
+      POSTGRES_USER: unicorn_user
+      POSTGRES_PASSWORD: magical_password
+      POSTGRES_DB: stepcloud
+    networks:
+      - backend
+
+  pgadmin:
+    container_name: pgadmin_container
+    image: registry.hub.docker.com/dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-pgadmin4@pgadmin.org}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-admin}
+    volumes:
+      - pgadmin:/root/.pgadmin
+    networks:
+      - backend
+    restart: unless-stopped
+
+
+  backend:
+    container_name: stepcloud-backend
+    build:
+      context: ./backend
+      dockerfile: Dev.Backend.Dockerfile
+    depends_on:
+      - database
+    networks:
+      - backend
+    environment:
+      - PROJECT_NAME=StepCloud
+      - SERVER_NAME=localhost
+      - SERVER_HOST=https://localhost
+      - BACKEND_CORS_ORIGINS=["http://localhost:8082", "http://localhost:8081", "http://localhost", "http://localhost:4200", "http://localhost:3000", "http://localhost:8080", "https://localhost", "https://localhost:4200", "https://localhost:3000", "https://localhost:8080", "http://dev.stepcloud.de", "https://stag.stepcloud.de", "https://stepcloud.de"]
+      - SECRET_KEY=secret_key
+      - FIRST_SUPERUSER=admin@amira3d.io
+      - FIRST_SUPERUSER_PASSWORD=admin
+      - SMTP_TLS=True
+      - SMTP_PORT=587
+      - SMTP_HOST=mail.your-server.de
+      - SMTP_USER=noreply@stepcloud.de
+      - SMTP_PASSWORD=
+      - EMAILS_FROM_EMAIL=noreply@stepcloud.de
+      - USERS_OPEN_REGISTRATION=False
+      - POSTGRES_SERVER=database
+      - POSTGRES_USER=unicorn_user
+      - POSTGRES_PASSWORD=magical_password
+      - POSTGRES_DB=stepcloud
+      # Leave Sentry DNS empty for development to receive no crash reports
+      - SENTRY_DSN=
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000

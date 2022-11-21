@@ -1,0 +1,101 @@
+version: "3.4"
+networks:
+  backend:
+    driver: "bridge"
+volumes:
+  database-data:
+  pgadmin:
+
+services:
+  database:
+    container_name: stepcloud-db
+    image: postgres
+    volumes:
+      - database-data:/var/lib/postgresql/data/
+    environment:
+      POSTGRES_USER: unicorn_user
+      POSTGRES_PASSWORD: magical_password
+      POSTGRES_DB: stepcloud
+    ports:
+      - 5432:5432
+    networks:
+      - backend
+
+  pgadmin:
+    container_name: pgadmin_container
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-pgadmin4@pgadmin.org}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-admin}
+    volumes:
+      - pgadmin:/root/.pgadmin
+    ports:
+      - "${PGADMIN_PORT:-5050}:80"
+    networks:
+      - backend
+    restart: unless-stopped
+
+  frontend:
+    container_name: stepcloud-frontend
+    build:
+      context: .
+      dockerfile: frontend/Dev.Frontend.Dockerfile
+    volumes:
+      - ./frontend:/app/frontend
+      - /app/node_modules # <---- this enables a much faster start/reload
+    ports:
+      - "8080:8080"
+    links:
+      - backend
+    networks:
+      - backend
+    restart: always
+    environment:
+      - ENV="DEVELOPMENT"
+      - VUE_APP_ENV="DEVELOPMENT"
+      - NODE_ENV="DEVELOPMENT"
+      - VUE_APP_API_DOMAIN=/
+      - CHOKIDAR_USEPOLLING=true # <---- this enables the hot reloading
+    command: /bin/sh -c "ls -la && npm run serve" -e
+
+  backend:
+    container_name: stepcloud-backend
+    build:
+      context: ./backend
+      dockerfile: Dev.Backend.Dockerfile
+    depends_on:
+      - database
+    networks:
+      - backend
+    ports:
+      - "80:80"
+    volumes:
+      - type: bind
+        source: ./backend/app
+        target: /app
+
+    environment:
+      - PROJECT_NAME=StepCloud
+      - SERVER_NAME=localhost
+      - SERVER_HOST=https://localhost
+      - BACKEND_CORS_ORIGINS=["http://localhost:8082", "http://localhost:8081", "http://localhost", "http://localhost:4200", "http://localhost:3000", "http://localhost:8080", "https://localhost", "https://localhost:4200", "https://localhost:3000", "https://localhost:8080", "http://dev.stepcloud.de", "https://stag.stepcloud.de", "https://stepcloud.de"]
+      - SECRET_KEY=secret_key
+      - FIRST_SUPERUSER=admin@stepcloud.de
+      - FIRST_SUPERUSER_PASSWORD=admin
+      - SMTP_TLS=True
+      - SMTP_PORT=587
+      - SMTP_HOST=mail.your-server.de
+      - SMTP_USER=noreply@stepcloud.de
+      - SMTP_PASSWORD=
+      - EMAILS_FROM_EMAIL=noreply@stepcloud.de
+      - USERS_OPEN_REGISTRATION=False
+      - POSTGRES_SERVER=database
+      - POSTGRES_TEST_SERVER=database-test
+      - POSTGRES_USER=unicorn_user
+      - POSTGRES_PASSWORD=magical_password
+      - POSTGRES_DB=stepcloud
+      - POSTGRES_TEST_DB=test
+      # Leave Sentry DNS empty for development to receive no crash reports
+      - SENTRY_DSN=
+    command: uvicorn app.main:app --host 0.0.0.0 --port 80
+

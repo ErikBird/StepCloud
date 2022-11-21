@@ -1,0 +1,85 @@
+name: Electron Release
+on:
+  # Trigger the workflow on push or pull request,
+  # but only for the main branch
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  get_engine:
+    runs-on: ubuntu-latest
+    steps:
+      - id: engine
+        uses: dsaltares/fetch-gh-release-asset@master
+        with:
+          repo: "ErikBird/engine"
+          #version: "tags/v0.1.18"
+          file: "engine.exe"
+          target: "engine.exe"
+          token: ${{secrets.ERIKBIRD_PAT}}
+      - name: "Print result"
+        run: |
+          ls
+      - uses: actions/upload-artifact@master
+        with:
+          name: engine-artifact
+          path: engine.exe
+
+  #  publish_on_linux:
+  #    runs-on: ubuntu-latest
+  #    steps:
+  #    - uses: actions/checkout@v2
+  #    - uses: actions/setup-node@master
+  #      with:
+  #        node-version: 14
+  #    - name: install dependencies
+  #      run: npm install
+  #    - name: publish
+  #      env:
+  #        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  #      run: npm run electron:build -- -p always
+
+  #  publish_on_mac:
+  #    runs-on: macos-latest
+  #    steps:
+  #    - uses: actions/checkout@v2
+  #    - uses: actions/setup-node@master
+  #      with:
+  #        node-version: 14
+  #    - name: install dependencies
+  #      run: npm install
+  #    - name: publish
+  #      env:
+  #        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  #      run: npm run electron:build -- -p always
+
+  publish_on_win:
+    runs-on: windows-latest
+    steps:
+      - id: release_drafter
+        uses: release-drafter/release-drafter@v5
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@master
+        with:
+          node-version: 14
+      - name: install dependencies
+        run: npm install
+      - uses: actions/download-artifact@master
+        with:
+          name: engine-artifact
+          path: ./build/executables
+      - name: "Print result"
+        run: |
+          ls
+          ls ./build/executables
+          set DEBUG=electron-builder
+      - name: publish
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: npm run electron:build -- -p always

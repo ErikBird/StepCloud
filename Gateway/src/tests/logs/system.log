@@ -1,0 +1,21 @@
+2022-06-22 22:37:53,785 — InterfaceManager — INFO — Register CoreInterface: Clock
+2022-06-22 22:37:53,791 — InterfaceManager — INFO — Register CoreInterface: SSDPServer
+2022-06-22 22:37:53,792 — InterfaceManager — INFO — Register CoreInterface: CoAP
+2022-06-22 22:37:53,792 — NetioDiscovery — WARNING — failure sending out byebye notification: AttributeError("'NoneType' object has no attribute 'sendto'")
+2022-06-22 22:37:53,792 — InterfaceManager — INFO — Register DiscoveryInterface: NetioDiscovery
+2022-06-22 22:37:53,792 — AsigaDiscovery — WARNING — failure sending out byebye notification: AttributeError("'NoneType' object has no attribute 'sendto'")
+2022-06-22 22:37:53,792 — InterfaceManager — INFO — Register DiscoveryInterface: AsigaDiscovery
+2022-06-22 22:39:08,549 — InterfaceManager — INFO — Register CoreInterface: Clock
+2022-06-22 22:39:08,563 — InterfaceManager — INFO — Register CoreInterface: SSDPServer
+2022-06-22 22:39:08,564 — InterfaceManager — INFO — Register CoreInterface: CoAP
+2022-06-22 22:39:08,564 — NetioDiscovery — WARNING — failure sending out byebye notification: AttributeError("'NoneType' object has no attribute 'sendto'")
+2022-06-22 22:39:08,564 — InterfaceManager — INFO — Register DiscoveryInterface: NetioDiscovery
+2022-06-22 22:39:08,565 — AsigaDiscovery — WARNING — failure sending out byebye notification: AttributeError("'NoneType' object has no attribute 'sendto'")
+2022-06-22 22:39:08,565 — InterfaceManager — INFO — Register DiscoveryInterface: AsigaDiscovery
+2022-06-22 22:43:04,852 — InterfaceManager — INFO — Register CoreInterface: Clock
+2022-06-22 22:43:06,457 — InterfaceManager — INFO — Register CoreInterface: SSDPServer
+2022-06-22 22:43:06,458 — InterfaceManager — INFO — Register CoreInterface: CoAP
+2022-06-22 22:43:06,458 — NetioDiscovery — WARNING — failure sending out byebye notification: AttributeError("'NoneType' object has no attribute 'sendto'")
+2022-06-22 22:43:06,458 — InterfaceManager — INFO — Register DiscoveryInterface: NetioDiscovery
+2022-06-22 22:43:06,458 — AsigaDiscovery — WARNING — failure sending out byebye notification: AttributeError("'NoneType' object has no attribute 'sendto'")
+2022-06-22 22:43:06,459 — InterfaceManager — INFO — Register DiscoveryInterface: AsigaDiscovery

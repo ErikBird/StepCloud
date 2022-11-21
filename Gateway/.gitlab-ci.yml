@@ -1,0 +1,50 @@
+stages:
+  - Prepare
+  - Build
+  - Deploy
+
+meta-build-image:
+  image: docker:stable
+  services:
+    - docker:dind
+  stage: Prepare
+  script:
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+    - docker build -t registry.gitlab.com/lithohub/software/engine/buildimage:latest .
+    - docker push registry.gitlab.com/lithohub/software/engine/buildimage:latest
+  only:
+    refs:
+      - master
+    changes:
+      - Dockerfile
+
+ms_deploy:
+  image: registry.gitlab.com/lithohub/software/engine/buildimage
+  stage: Build
+  script:
+    - ls
+    - 'export VERSION=$(grep  "Version: " metadata.yml | cut -d":" -f2- | sed "s/ //g" )' #| sed "s/\./-/g"
+    - echo "VERSION=$VERSION" >> variables.env
+    - printenv VERSION
+    - 'export APPNAME=$(grep  "FileDescription: " metadata.yml | cut -d":" -f2- | sed "s/ //g")'
+    - echo "APPNAME=$APPNAME" >> variables.env
+    - printenv APPNAME
+    - envsubst < "engine.spec" > "replaced.spec"
+    - pyinstaller --onefile replaced.spec --version-file=file_version_info.txt
+  tags:
+    - gitlab-org-docker
+  artifacts:
+    reports:
+      dotenv: variables.env
+    paths:
+      - $CI_PROJECT_DIR/dist/*.exe
+    name: $CI_COMMIT_REF_SLUG
+    when: on_success
+
+variables:
+  WIN_BINARY: '${APPNAME}-${VERSION}.exe'
+  PACKAGE_REGISTRY_URL: '${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/generic/${APPNAME}/${VERSION}'
+
+trigger-desktop:
+  stage: Deploy
+  trigger: lithohub/software/desktop-client

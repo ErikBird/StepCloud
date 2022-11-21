@@ -1,0 +1,95 @@
+version: "3.4"
+networks:
+  backend:
+    driver: "bridge"
+volumes:
+  database-data:
+  pgadmin:
+  caddy:
+
+services:
+  caddy:
+    container_name: caddy-stage
+    build:
+      context: ./
+      dockerfile: ./caddy/Dockerfile
+      args:
+        VUE_APP_ENV: staging
+        CADDY_FILE: ./caddy/Stage.Caddyfile
+    ports:
+      - 1337:1337
+      - 443:443
+      - 80:80
+    volumes:
+      - caddy:/data
+    networks:
+      - backend
+
+  database:
+    container_name: amira-db-stage
+    image: docker.io/library/postgres
+    volumes:
+      - database-data:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_PASSWORD
+      - POSTGRES_USER
+      - POSTGRES_DB=amira
+    networks:
+      - backend
+
+  database-test:
+    image: postgres
+    environment:
+      - POSTGRES_PASSWORD
+      - POSTGRES_USER
+      - POSTGRES_DB=test
+    ports:
+      - ${POSTGRES_TEST_PORT}:5432
+
+  pgadmin:
+    container_name: pgadmin_container-stage
+    image: registry.hub.docker.com/dpage/pgadmin4
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=admin@amira3d.io
+      - PGADMIN_DEFAULT_PASSWORD
+    volumes:
+      - pgadmin:/root/.pgadmin
+    networks:
+      - backend
+    restart: unless-stopped
+
+
+  backend:
+    container_name: amira-backend-stage
+    build:
+      context: ./backend
+      dockerfile: Dev.Backend.Dockerfile
+    depends_on:
+      - database
+    networks:
+      - backend
+    environment:
+      - PROJECT_NAME=AMIRA
+      - SERVER_NAME=localhost
+      - SERVER_HOST=https://localhost
+      - BACKEND_CORS_ORIGINS=["http://localhost:8082", "http://localhost:8081", "http://localhost", "http://localhost:4200", "http://localhost:3000", "http://localhost:8080", "https://localhost", "https://localhost:4200", "https://localhost:3000", "https://localhost:8080", "http://dev.amira3d.io", "https://stag.amira3d.io", "https://amira3d.io", "http://local.dockertoolbox.tiangolo.com", "http://localhost.tiangolo.com"]
+      - PROJECT_NAME=Amira3D
+      - SECRET_KEY=secret_key
+      - FIRST_SUPERUSER=admin@amira3d.io
+      - FIRST_SUPERUSER_PASSWORD
+      - SMTP_TLS=True
+      - SMTP_PORT=587
+      - SMTP_HOST=mail.your-server.de
+      - SMTP_USER=noreply@amira3d.io
+      - SMTP_PASSWORD
+      - EMAILS_FROM_EMAIL=noreply@amira3d.io
+      - USERS_OPEN_REGISTRATION=False
+      - POSTGRES_SERVER=database
+      - POSTGRES_TEST_SERVER=database-test
+      - POSTGRES_USER
+      - POSTGRES_PASSWORD
+      - POSTGRES_DB=amira
+      - POSTGRES_TEST_DB=test
+      # Leave Sentry DNS empty for development to receive no crash reports
+      - SENTRY_DSN=https://a1d6097ab5c947c0879cdf9325bdd331@o479962.ingest.sentry.io/5525848
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000

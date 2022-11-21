@@ -1,0 +1,26 @@
+name: Test & Staging Deploy
+on:
+  # Trigger the workflow on push or pull request,
+  # but only for the main branch
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  stage-deploy:
+    name: Deploy Staging
+    runs-on: staging
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v2
+      - name: Deploy Server
+        run: docker-compose -f stage.docker-compose.yml up -d --build
+      - name: Run migrations
+        run: docker-compose exec -T backend alembic upgrade head
+      - name: Generate Missing Initial Data
+        run: docker-compose exec -T backend /bin/sh -c "python ./app/initial_data.py"
+      - name: Run Python Tests
+        run: docker-compose exec -T backend /bin/sh -c pytest

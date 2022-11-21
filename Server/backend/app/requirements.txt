@@ -1,0 +1,24 @@
+fastapi>=0.75.2
+sqlmodel>=0.0.6
+uvicorn>=0.17.6
+sentry_sdk>=0.19.4
+raven>=6.10.0
+email-validator>=1.2.0
+requests>=2.27.1
+passlib>=1.7.4
+python-multipart>=0.0.5
+emails>=0.6
+jinja2>=3.1.2
+asyncpg==0.25.0
+python-jose>=3.3.0
+httpx>=0.22.0
+pytest>=7.1.2
+pytest-asyncio>=0.18.3
+alembic>=1.7.7
+SQLAlchemy==1.4.34  #https://github.com/tiangolo/sqlmodel/issues/315
+asgi-lifespan==1.0.1
+psycopg2==2.9.3
+aiosqlite==0.17.0
+pytest-env==0.6.2
+pytest-cov==3.0.0
+pydantic[email]

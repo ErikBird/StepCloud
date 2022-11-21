@@ -1,0 +1,26 @@
+
+{
+	email   erik@stepcloud.de
+}
+
+www.stepcloud.de {
+    redir https://stage.stepcloud.de/{uri}
+}
+
+amira3d.io {
+	handle /api/* {
+		reverse_proxy backend:8000
+	}
+    handle /docs {
+		reverse_proxy backend:8000
+	}
+
+	handle {
+	    try_files {path} /index.html
+	    file_server
+	}
+}
+
+pgadmin.stepcloud.de {
+	reverse_proxy pgadmin
+}
